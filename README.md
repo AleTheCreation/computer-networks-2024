@@ -1,31 +1,22 @@
-# Redes de computadoras 2024
+# Descripción de la Implementación del Protocolo IRC
 
-El objetivo del proyecto es desarrollar una implemetación desde cero de un cliente de un protocolo de la capa de aplicación del modelo TCP/IP. 
+La implementación propuesta del protocolo IRC (Internet Relay Chat) consiste en dos partes: un cliente y un servidor.
 
-Dicha implementacion debe estar completamente reflejada en github. Para ello cada equipo debe:
+## Cliente IRC:
 
-1. Hacer un fork de este repositorio
-2. Abrir un Pull Request con el repo original. En dicho PR deben quedar reflejados los nombres de los integrantes, así como protocolo y grupo.
+- El cliente IRC es una aplicación de escritorio desarrollada en Python utilizando la biblioteca Tkinter para la interfaz gráfica.
+- Permite a los usuarios conectarse a un servidor IRC proporcionando su apodo (nickname), el servidor al que desean conectarse, y el puerto (opcionalmente el modo SSL también puede ser habilitado).
+- Una vez conectado, el cliente puede enviar y recibir mensajes en los canales de chat.
+- Ofrece funcionalidades básicas como enviar mensajes, unirse y abandonar canales, y desconectarse del servidor.
+- Implementa manejo de excepciones para gestionar errores de conexión, resolución DNS, y envío y recepción de mensajes.
 
-No existe limitante en cuanto al lenguage de programación de la solución a emplear. Pero si debe cumplir el RFC correspondiente a cada uno de los protocolos.
-También es obligatorio el uso de sockets para la solucion computacional y queda absolutamente prohibido el empleo de alguna biblioteca de terceros que facilite el trabajo a realizar.
+## Servidor IRC:
 
-Requerimientos mínimos para la entrega del proyecto y por tanto su evaluación:
-1. Breve descripción de la implementación propuesta del protocolo. 
-2. La solución se comunica exitosamente con un servidor del protocolo correspondiente.
-3. Cliente básico o de consola. 
+- El servidor IRC es un programa que escucha conexiones entrantes en un puerto específico y gestiona la comunicación entre los clientes conectados.
+- Cada cliente que se conecta al servidor se identifica mediante un apodo (nickname).
+- El servidor gestiona múltiples clientes simultáneamente, asignando a cada uno un hilo de ejecución para manejar su comunicación.
+- Permite a los clientes unirse a canales de chat, enviar y recibir mensajes dentro de esos canales, enviar mensajes privados entre usuarios, y desconectarse del servidor.
+- Implementa un sistema básico de canales donde los usuarios pueden unirse y dejar canales, y el servidor envía mensajes a todos los miembros de un canal específico.
+- Se ha agregado la capacidad de manejar excepciones para garantizar una ejecución robusta del servidor, capturando errores en la comunicación con los clientes y gestionando adecuadamente la terminación de los hilos de ejecución.
 
-Extras que contribuyen a una evaluación positiva del proyecto:
-1. Interfaz visual
-2. Compatibilidad con las versiones seguras del protocolo.
-3. Originalidad/Creatividad.
-4. Implementacion del servidor
-
-Todos los equipos deben de estar conformados máximo de tres estudiantes. Sin excepciones. 
-Ante cualquier duda, si la misma se refiere a vías de implementación, se asume la más compleja. A excepción de que un profesor del claustro indique lo contrario.
-
-Protocolos a implementar:
-1. SMTP
-2. FTP
-3. HTTP
-4. IRC
+En resumen, la implementación proporciona una base funcional para un sistema de chat IRC, con un cliente que ofrece una interfaz gráfica simple para la interacción del usuario y un servidor que gestiona la comunicación entre múltiples clientes conectados simultáneamente.
