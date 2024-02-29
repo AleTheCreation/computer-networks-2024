@@ -190,12 +190,16 @@ class IRCClient:
         else:
             print("Not joined to any channel.")
 
+    # Dentro del método receive_message en el cliente
     def receive_message(self):
         try:
-            return self.socket.recv(2048).decode("UTF-8")
+            message = self.socket.recv(2048).decode("UTF-8")
+            print("Received:", message)  # Agrega esta línea para verificar que se recibe el mensaje correctamente
+            return message
         except Exception as e:
             messagebox.showerror("Error", "Error al recibir datos del servidor IRC: {}".format(e))
             return ""
+
 
     def send(self, message):
         self.socket.send(bytes(message, "UTF-8"))
@@ -216,9 +220,13 @@ class IRCClient:
                 message = self.receive_message()
                 print(message)
                 self.handle_ping(message)
+                self.display_message(message) 
             except Exception as e:
                 print("Error:", e)
                 break
+
+    def display_message(self, message):
+         self.text_area.insert(tk.END, message + "\n")
 
 
 class IRCClientGUI:
