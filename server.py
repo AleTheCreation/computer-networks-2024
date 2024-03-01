@@ -44,12 +44,35 @@ class IRCServer:
         self.central_server_port = central_server_port
         self.clients = {}
         self.channels = {"general": []}  # Agregamos el canal "general" por defecto
+        self.admins = set()
+
+    def add_admin(self, nickname):
+        self.admins.add(nickname)
+    
+    def add_admin(self, nickname):
+        self.admins.add(nickname)
+
+    def remove_admin(self, nickname):
+        if nickname in self.admins:
+            self.admins.remove(nickname) 
+
+    def kick_user(self, sender, target):
+        if sender in self.admins and target in self.clients:
+            client_socket = self.clients[target]
+            client_socket.sendall("¡Has sido expulsado del servidor!".encode("utf-8"))
+            client_socket.close()
+            del self.clients[target]
+            self.send_message_to_all(f"{target} ha sido expulsado del servidor por {sender}.")
+
+    
 
     def handle_client(self, client_socket, client_address):
         nickname = client_socket.recv(1024).decode("utf-8")
         self.clients[nickname] = client_socket
         print(f"{nickname} se ha unido al servidor.")
         self.send_message_to_all(f"{nickname} se ha unido al servidor.")
+        if nickname.startswith("@"):
+            self.add_admin(nickname)
         while True:
             try:
                 message = client_socket.recv(1024).decode("utf-8")
@@ -63,6 +86,12 @@ class IRCServer:
                         self.join_channel(nickname, channel)
                     elif message.startswith("/list"):
                         self.list_channels(client_socket)
+                    elif message.startswith("/kick"):
+                        sender = nickname
+                        target = message.split()[1]
+                        self.kick_user(sender, target)  # Nuevo comando para expulsar usuarios
+                    elif message.startswith("/users"):
+                        self.list_users(client_socket)  # Nuevo comando para listar usuarios
                     elif message.startswith("/msg"):
                         recipient, msg_content = message.split(maxsplit=2)[1:]
                         self.send_private_message(nickname, recipient, msg_content)
@@ -74,6 +103,10 @@ class IRCServer:
             except Exception as e:
                 print(e)
                 break
+
+    def list_users(self, client_socket):
+        users_str = ", ".join(self.clients.keys())
+        client_socket.sendall(f"Usuarios conectados: {users_str}\n".encode("utf-8"))
 
     def join_channel(self, nickname, channel):
         if channel not in self.channels:
@@ -132,8 +165,8 @@ class IRCServer:
             client_thread.start()
 
 if __name__ == "__main__":
-    central_server = CentralServer("localhost", 8888)
-    irc_server = IRCServer("localhost", 6667, "localhost", 8888)
+    central_server = CentralServer("172.19.137.5", 8888)
+    irc_server = IRCServer("172.19.137.5", 6667, "172.19.137.5", 8888)
     
     central_server_thread = threading.Thread(target=central_server.start)
     irc_server_thread = threading.Thread(target=irc_server.start)

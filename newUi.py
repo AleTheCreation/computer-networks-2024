@@ -35,7 +35,7 @@ class IRCClient:
 
 def main():
     nickname = input("Ingrese su apodo: ")
-    irc_client = IRCClient("localhost", 6667, nickname)
+    irc_client = IRCClient("172.19.137.5", 6667, nickname)
     irc_client.connect()
 
     if irc_client.connected:
