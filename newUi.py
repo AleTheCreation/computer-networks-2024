@@ -34,8 +34,10 @@ class IRCClient:
                 break
 
 def main():
+    # Cambia 'localhost' por la dirección IP del servidor en la red local
+    server_ip = input("Ingrese la dirección IP del servidor: ")
     nickname = input("Ingrese su apodo: ")
-    irc_client = IRCClient("172.19.137.5", 6667, nickname)
+    irc_client = IRCClient(server_ip, 6667, nickname)
     irc_client.connect()
 
     if irc_client.connected:
@@ -45,6 +47,10 @@ def main():
         while True:
             message = input()
             irc_client.send_message(message)
+
+            # Esperar a que se reciba la lista de canales
+            if message == "/list":
+                continue
 
     else:
         print("No se pudo conectar al servidor. Por favor, vuelva a intentarlo más tarde.")

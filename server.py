@@ -165,8 +165,8 @@ class IRCServer:
             client_thread.start()
 
 if __name__ == "__main__":
-    central_server = CentralServer("172.19.137.5", 8888)
-    irc_server = IRCServer("172.19.137.5", 6667, "172.19.137.5", 8888)
+    central_server = CentralServer("172.20.10.2", 8888)
+    irc_server = IRCServer("172.20.10.2", 6667, "172.20.10.2", 8888)
     
     central_server_thread = threading.Thread(target=central_server.start)
     irc_server_thread = threading.Thread(target=irc_server.start)
