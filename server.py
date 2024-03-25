@@ -48,13 +48,13 @@ class IRCServer:
 
     def add_admin(self, nickname):
         self.admins.add(nickname)
-    
+
     def add_admin(self, nickname):
         self.admins.add(nickname)
 
     def remove_admin(self, nickname):
         if nickname in self.admins:
-            self.admins.remove(nickname) 
+            self.admins.remove(nickname)
 
     def kick_user(self, sender, target):
         if sender in self.admins and target in self.clients:
@@ -64,7 +64,7 @@ class IRCServer:
             del self.clients[target]
             self.send_message_to_all(f"{target} ha sido expulsado del servidor por {sender}.")
 
-    
+
 
     def handle_client(self, client_socket, client_address):
         nickname = client_socket.recv(1024).decode("utf-8")
@@ -165,11 +165,11 @@ class IRCServer:
             client_thread.start()
 
 if __name__ == "__main__":
-    central_server = CentralServer("172.20.10.2", 8888)
-    irc_server = IRCServer("172.20.10.2", 6667, "172.20.10.2", 8888)
-    
+    central_server = CentralServer("172.20.10.3", 8888)
+    irc_server = IRCServer("172.20.10.3", 6667, "172.20.10.3", 8888)
+
     central_server_thread = threading.Thread(target=central_server.start)
     irc_server_thread = threading.Thread(target=irc_server.start)
-    
+
     central_server_thread.start()
     irc_server_thread.start()
