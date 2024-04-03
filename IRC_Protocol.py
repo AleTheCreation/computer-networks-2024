@@ -123,20 +123,19 @@ class IRCClient:
         if code == "322":  # Respuesta a LIST
             channel = parts[3]
             user_count = parts[4]
-            topic = ' '.join(parts[5:])[1:]  # Elimina el primer ':'
+            topic = ' '.join(parts[5:])[1:]
             print(f"Canal: {channel} ({user_count} usuarios) - Tema: {topic}")
         elif code == "323":  # Fin de la lista LIST
             print("Fin de la lista de canales.")
         elif code == "353":  # Respuesta a NAMES
             channel = parts[4]
-            names = ' '.join(parts[5:])[1:]  # Elimina el primer ':'
+            names = ' '.join(parts[5:])[1:]
             print(f"Usuarios en {channel}: {names}")
         elif code == "366":  # Fin de la lista NAMES
             channel = parts[3]
             print(f"Fin de la lista de usuarios en {channel}.")
         elif code == "433":
             print("El nickname deseado está en uso o es inválido.")
-            # Aquí puedes pedir al usuario que elija un nuevo nickname.
         elif code == "431":  # Sin nickname dado
             print("No se ha proporcionado un nickname.")
         elif code == "432":  # Erroneous Nickname
@@ -149,11 +148,11 @@ class IRCClient:
             nickname = parts[3]
             username = parts[4]
             hostname = parts[5]
-            realname = ' '.join(parts[7:])[1:]  # Quita el primer ':'
+            realname = ' '.join(parts[7:])[1:]
             print(f"Usuario {nickname} ({realname}) está en {hostname}")
         elif code == "319":  # Canales en los que el usuario está
             nickname = parts[3]
-            channels = ' '.join(parts[4:])[1:]  # Quita el primer ':'
+            channels = ' '.join(parts[4:])[1:]
             print(f"{nickname} está en los canales {channels}")
 
     def handle_privmsg(self, parts):
@@ -176,7 +175,6 @@ class IRCClient:
         message = full_msg[message_start + 1:]
 
         # Determina si el mensaje es para un canal o es un mensaje directo
-        # Esto es simplificado, en IRC el primer carácter del destinatario podría ser usado para indicar tipos específicos de destinos
         if parts[2].startswith('#'):
             # Mensaje de canal
             print(f"Mensaje de {sender} en {parts[2]}: {message}")
@@ -192,25 +190,25 @@ class IRCClient:
         print(f"Notice de {sender}: {message}")
 
     def handle_join(self, parts):
-        user_info = parts[0][1:]  # Elimina el primer ':'
+        user_info = parts[0][1:]
         channel = parts[2].strip() if parts[2].startswith(':') else parts[2]
         print(f"{user_info} se ha unido a {channel}")
 
     def handle_part(self, parts):
-        user_info = parts[0][1:]  # Elimina el primer ':'
+        user_info = parts[0][1:]
         channel = parts[2].strip() if parts[2].startswith(':') else parts[2]
         print(f"{user_info} ha dejado {channel}")
 
     def handle_kick(self, parts):
         channel = parts[2]
         user_kicked = parts[3]
-        reason = " ".join(parts[4:]).lstrip(':')  # La razón puede estar opcionalmente incluida
+        reason = " ".join(parts[4:]).lstrip(':')
         print(f"{user_kicked} ha sido expulsado de {channel} por la razón: {reason}")
 
     def handle_mode(self, parts):
-        source = parts[0][1:]  # Quien hizo el cambio
-        channel_or_user = parts[2]  # Puede ser un canal o un usuario
-        mode_changes = parts[3:]  # Los cambios de modo aplicados
+        source = parts[0][1:]
+        channel_or_user = parts[2]
+        mode_changes = parts[3:]
 
         # Imprime o procesa el cambio de modo
         print(f"{source} cambió el modo de {channel_or_user} a {' '.join(mode_changes)}")
@@ -219,7 +217,7 @@ class IRCClient:
     def handle_nick_change(self, parts):
         old_nick = parts[0][1:].split('!')[0]
         new_nick = parts[2].lstrip(':')
-        if old_nick == self.nickname:  # Si el cambio de nickname es para el usuario del cliente
+        if old_nick == self.nickname:
             self.nickname = new_nick  # Actualiza el nickname almacenado
             print(f"Tu nickname ha sido cambiado a {new_nick}.")
         else:
@@ -230,11 +228,11 @@ class IRCClient:
             nickname = parts[3]
             username = parts[4]
             hostname = parts[5]
-            realname = ' '.join(parts[7:])[1:]  # Quita el primer ':'
+            realname = ' '.join(parts[7:])[1:]
             print(f"Usuario {nickname} ({realname}) está en {hostname}")
         elif code == "319":  # Canales en los que el usuario está
             nickname = parts[3]
-            channels = ' '.join(parts[4:])[1:]  # Quita el primer ':'
+            channels = ' '.join(parts[4:])[1:]
             print(f"{nickname} está en los canales {channels}")
 
 
@@ -266,22 +264,11 @@ class IRCClient:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 def main():
     server_ip = input("Ingrese la dirección IP del servidor: ")
-    port = 6667  # Cambia esto si tu servidor usa un puerto diferente para SSL/TLS
+    port = 6667
     nickname = input("Ingrese su apodo: ")
-    use_ssl = False  # Asumiendo que quieres usar SSL/TLS
+    use_ssl = False
 
     irc_client = IRCClient(server_ip, port, nickname, use_ssl)
     irc_client.connect()
