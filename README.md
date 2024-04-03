@@ -1,6 +1,6 @@
 # Redes de computadoras 2024
 
-El objetivo del proyecto es desarrollar una implemetación desde cero de un cliente de un protocolo de la capa de aplicación del modelo TCP/IP. 
+El objetivo del proyecto es desarrollar una implemetación desde cero de un cliente de un protocolo de la capa de aplicación del modelo TCP/IP.
 
 Dicha implementacion debe estar completamente reflejada en github. Para ello cada equipo debe:
 
@@ -11,9 +11,9 @@ No existe limitante en cuanto al lenguage de programación de la solución a emp
 También es obligatorio el uso de sockets para la solucion computacional y queda absolutamente prohibido el empleo de alguna biblioteca de terceros que facilite el trabajo a realizar.
 
 Requerimientos mínimos para la entrega del proyecto y por tanto su evaluación:
-1. Breve descripción de la implementación propuesta del protocolo. 
+1. Breve descripción de la implementación propuesta del protocolo.
 2. La solución se comunica exitosamente con un servidor del protocolo correspondiente.
-3. Cliente básico o de consola. 
+3. Cliente básico o de consola.
 
 Extras que contribuyen a una evaluación positiva del proyecto:
 1. Interfaz visual
@@ -21,7 +21,7 @@ Extras que contribuyen a una evaluación positiva del proyecto:
 3. Originalidad/Creatividad.
 4. Implementacion del servidor
 
-Todos los equipos deben de estar conformados máximo de tres estudiantes. Sin excepciones. 
+Todos los equipos deben de estar conformados máximo de tres estudiantes. Sin excepciones.
 Ante cualquier duda, si la misma se refiere a vías de implementación, se asume la más compleja. A excepción de que un profesor del claustro indique lo contrario.
 
 Protocolos a implementar:
@@ -29,3 +29,10 @@ Protocolos a implementar:
 2. FTP
 3. HTTP
 4. IRC
+
+Grupo: C-311
+Protocolo: IRC
+Integrantes:
+- Alejandro Ramírez Trueba
+- Mauro Eduardo Campver Barrios
+- Alejandro Lamelas Delgado
