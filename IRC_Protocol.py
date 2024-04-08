@@ -1,8 +1,9 @@
 import socket
+import ssl
 import threading
 
 class IRCClient:
-    def __init__(self, host, port, nickname, use_ssl=False):
+    def __init__(self, host, port, nickname, use_ssl):
         self.host = host
         self.port = port
         self.nickname = nickname
@@ -12,6 +13,13 @@ class IRCClient:
 
 
         if self.use_ssl:
+            # Crear una instancia de SSLContext para autenticación del servidor (conexión cliente)
+            ssl_context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
+            ssl_context.check_hostname = True  # Verifica que el nombre de host en el certificado coincide con el objetivo
+            ssl_context.verify_mode = ssl.CERT_REQUIRED  # Requiere un certificado válido
+            # ssl_context.check_hostname = False
+            # ssl_context.verify_mode = ssl.CERT_NONE  #Deshabilita la verificación del certificado
+            # Envolver el socket existente en un contexto SSL
             self.socket = ssl_context.wrap_socket(self.socket, server_hostname=self.host)
 
 
@@ -266,9 +274,24 @@ class IRCClient:
 
 def main():
     server_ip = input("Ingrese la dirección IP del servidor: ")
-    port = 6667
+    port = int(input("Ingrese el puerto: "))
     nickname = input("Ingrese su apodo: ")
-    use_ssl = False
+    usarssl = input ("Ingrese 1 para usar conexión segura. Ingrese 2 para el caso contrario: ")
+
+    tmp = True
+    while tmp:
+        if usarssl == '1':
+            use_ssl = True
+            tmp = False
+        elif usarssl == '2':
+            use_ssl = False
+            tmp = False
+        else:
+            usarssl = input ("Ingrese 1 para usar conexión segura. Ingrese 2 para el caso contrarioÑ ")
+
+
+
+
 
     irc_client = IRCClient(server_ip, port, nickname, use_ssl)
     irc_client.connect()
